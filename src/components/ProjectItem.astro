@@ -1,0 +1,68 @@
+---
+interface Props {
+	title: string;
+	location: string;
+	description: string;
+	link: string;
+	image: string;
+	order: number;
+}
+const { title, location, description, link, image, order } = Astro.props;
+---
+
+<article class="ProjectCard" data-order={order}>
+	<img class="ProjectCard-thumbnail" src={image} alt={title} width="420" />
+	<div class="ProjectCard-content">
+		<h3 class="ProjectCard-title">{title}</h3>
+		<p class="ProjectCard-location">{location}</p>
+		<p class="ProjectCard-description">{description}</p>
+		<a
+			class="ProjectCard-link"
+			href={link}
+			target="_blank"
+			rel="noopener noreferrer">For more information, please click here</a
+		>
+	</div>
+</article>
+
+<style lang="scss">
+	.ProjectCard {
+		padding: 20px;
+		margin-bottom: 20px;
+		display: flex;
+		flex-flow: row nowrap;
+		gap: 2rem;
+
+		&-thumbnail {
+			aspect-ratio: 7/5;
+			aspect-ratio: initial;
+			object-fit: cover;
+			height: 100%;
+			display: block;
+			flex: 1;
+			border-radius: 13px;
+		}
+
+		&-content {
+			display: flex;
+			flex-flow: column nowrap;
+			gap: 0.8rem;
+			line-height: 1.3;
+			font-size: 14px;
+			flex: 1;
+		}
+
+		&-title {
+			margin: 0;
+			font-size: 1rem;
+		}
+		&-location {
+			font-style: italic;
+		}
+
+		@media (max-width: 768px) {
+			padding: 0;
+			flex-flow: column;
+		}
+	}
+</style>

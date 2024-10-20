@@ -1,0 +1,227 @@
+---
+//The main laypout
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Required components for specific layouts
+import Card from "../components/Card.astro";
+import ProjectItem from "../components/ProjectItem.astro";
+
+//Import Images
+import Showrom from "../assets/projects/Showroom.png";
+import Home from "../assets/projects/Home1.png";
+import Office1 from "../assets/projects/Office1.png";
+import Office2 from "../assets/projects/Office2.png";
+import Apartament from "../assets/projects/Apartment1.png";
+
+import { Image } from "astro:assets";
+
+// Imports for load contents
+import { getCollection } from "astro:content";
+import TheContent from "../components/TheContent.astro";
+
+// Variables definitions for load and filter contents
+const projects = await getCollection("projects");
+
+
+const completedProjects = projects
+	.filter((project) => project.data.category === "completed")
+	.sort((a, b) => a.data.order - b.data.order);
+
+const newProjects = projects.filter(
+	(project) => project.data.category === "new"
+);
+
+
+---
+
+<BaseLayout title="Projects" description="Projects">
+	<TheContent>
+		<video controls="true">
+			<source src="https://surinvest.gabella.cl/virtus.mp4" type="video/mp4" />
+			Your browser does not support the Video. Please update now
+		</video>
+
+		<Card title="Projects">
+			<p>Please select a link below to view the details of each project:</p>
+			<ul>
+				<li>
+					<a href="#construction">New Projects</a><br />
+				</li>
+				<li>
+					<a href="#completed">Completed Projects</a><br />
+				</li>
+				<li>
+					<a href="#leased">Leased Apartments, Offices &amp; Showrooms</a>
+				</li>
+			</ul>
+		</Card>
+
+		<Card title="New projects" id="construction">
+			{
+				newProjects.map((project) => (
+					<ProjectItem
+						order={project.data.order}
+
+						
+						title={project.data.title}
+						location={project.data.location}
+						description={project.data.description}
+						link={project.data.link}
+						image={project.data.image}
+					/>
+				))
+			}
+		</Card>
+
+		<Card title="Completed projects" id="completed">
+			{
+				completedProjects.map((project) => (
+					<ProjectItem
+						order={project.data.order}
+						title={project.data.title}
+						location={project.data.location}
+						description={project.data.description}
+						link={project.data.link}
+						image={project.data.image}
+					/>
+				))
+			}
+		</Card>
+
+		<Card title="Leased Apts, Offices & Showrooms" id="leased">
+			<div class="LeasedGrid">
+				<Image
+					class="image-1"
+					src={Showrom}
+					alt="Showroom"
+					width={600}
+					height={600}
+				/>
+				<Image
+					class="image-2"
+					src={Home}
+					alt="Showroom"
+					width={390}
+					height={390}
+				/>
+				<Image
+					class="image-4"
+					src={Office1}
+					alt="Showroom"
+					width={227}
+					height={300}
+				/>
+				<Image
+					class="image-3"
+					src={Office2}
+					alt="Showroom"
+					width={390}
+					height={390}
+				/>
+				<Image
+					class="image-5"
+					src={Apartament}
+					alt="Showroom"
+					width={227}
+					height={300}
+				/>
+			</div>
+		</Card>
+	</TheContent>
+
+	<style lang="scss">
+		video {
+			width: 100%;
+			max-height: 350px;
+		}
+
+		.Projects-menu {
+			display: flex;
+			flex-flow: column nowrap;
+			gap: var(--size-2);
+			padding-block: var(--size-4);
+
+			&__item a {
+				text-decoration: none !important;
+				color: var(--item-doc-link);
+				font-weight: 700;
+				font-size: var(--size-3);
+			}
+		}
+		.Columns {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: var(--size-6);
+
+			figure {
+				width: 100%;
+
+				img {
+					width: 100%;
+				}
+			}
+		}
+		.ProjectInner-title {
+			color: var(--primary-color);
+		}
+		.ProjectCardContent {
+			display: flex;
+			flex-flow: column nowrap;
+			gap: var(--size-4);
+			padding-right: var(--size-16);
+		}
+
+		.LeasedGrid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto auto auto;
+			grid-template-areas:
+				"image-1 image-1"
+				"image-2 image-3"
+				"image-4 image-5";
+			gap: 3rem;
+			justify-items: center;
+			justify-content: center;
+
+			.image-1 {
+				grid-area: image-1;
+			}
+			.image-2 {
+				grid-area: image-2;
+			}
+			.image-3 {
+				grid-area: image-3;
+			}
+			.image-4 {
+				grid-area: image-4;
+			}
+			.image-5 {
+				grid-area: image-5;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.LeasedGrid {
+				grid-template-columns: 1fr;
+				grid-template-rows: repeat(5, 1fr);
+				grid-template-areas:
+					"image-1"
+					"image-2"
+					"image-3"
+					"image-4"
+					"image-5";
+				gap: 1rem;
+			}
+			.image-1,
+			.image-2,
+			.image-3,
+			.image-4,
+			.image-5 {
+				// max-height: 200px;
+				object-fit: cover;
+				border-radius: 12px;
+				aspect-ratio: 3/2;
+			}
+		}
+	</style>
+</BaseLayout>

@@ -1,0 +1,67 @@
+---
+import Card from "../components/Card.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import Banchile from "../assets/Banchile.png";
+import BancoEdwards from "../assets/BancoEdwards.png";
+import Safra from "../assets/Safra.png";
+import Fuensalida from "../assets/Fuensalida.png";
+import TheContent from "../components/TheContent.astro";
+---
+
+<BaseLayout title="Associates" description="Associates">
+	<TheContent>
+		<Card
+			title="Associates"
+			subtitle={"Seamless Integration of Expertise for Effective Assistance"}
+			showSubtitle={true}>
+			Surinvest has formal agreements with specialized technical and financial
+			advisory firms to provide specialized support for investment processes in
+			niche markets, including their appraisals, acquisition, execution,
+			purchase and sales, under Surinvest’s oversight.
+		</Card>
+
+		<div class="InversoresContainer">
+			<a href="http://www.banchileinversiones.cl/" class="AssociateLink">
+				<Image src={Banchile} alt={"Banchile Inversiones Logo"} />
+			</a>
+			<a
+				href="https://portales.bancoedwards.cl/personas/inversiones"
+				class="AssociateLink">
+				<Image src={BancoEdwards} alt={"Banco Edwards Logo"} />
+			</a>
+			<a href="https://www.safra.com/" class="AssociateLink">
+				<Image src={Safra} alt={"Banchile Inversiones Logo"} />
+			</a>
+			<a href="https://www.fydv.cl/" class="AssociateLink">
+				<Image src={Fuensalida} alt={"Banchile Inversiones Logo"} />
+			</a>
+		</div>
+	</TheContent>
+</BaseLayout>
+
+<style lang="scss">
+	.InversoresContainer {
+		display: flex;
+		gap: 2em;
+		flex-flow: row wrap;
+		justify-items: center;
+		justify-content: center;
+
+		@media (max-width: 440px) {
+			flex-flow: column nowrap;
+		}
+
+		a {
+			border: solid 3px var(--border-strokes-color);
+			border-radius: var(--border-radius-md);
+			overflow: hidden;
+			padding: 2rem;
+			max-width: 400px;
+
+			@media (max-width: 440px) {
+				max-width: 100%;
+			}
+		}
+	}
+</style>

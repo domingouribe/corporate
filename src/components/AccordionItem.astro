@@ -1,0 +1,110 @@
+---
+//File name: AcoordionItem.astro
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="Accordion-item">
+	<button class="Accordion-trigger" aria-expanded="false">
+		<span class="Accordion-icon" aria-hidden="true"></span>
+		<span class="Accordion-title">{title}</span>
+	</button>
+	<div class="Accordion-content">
+		<div class="Accordion-contentInner">
+			<slot />
+		</div>
+	</div>
+</div>
+
+<style lang="scss">
+	.Accordion {
+		&-item {
+			border-bottom: 1px solid var(--color-border, #ddd);
+			height: auto;
+			margin-bottom: 1px;
+		}
+
+		&-trigger {
+			width: 100%;
+			padding: 0.6rem 1rem;
+			background: none;
+			text-align: left;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+			background-color: #e7e7e7;
+			border-radius: 9px;
+			border: solid 1px #cacaca;
+			box-shadow: -1px -50px 3px -37px rgba(0, 0, 0, 0.1) inset;
+			-webkit-box-shadow: -1px -50px 3px -37px rgba(0, 0, 0, 0.1) inset;
+			-moz-box-shadow: -1px -50px 3px -37px rgba(0, 0, 0, 0.1) inset;
+		}
+
+		&-icon {
+			// min-width: 10px;
+			width: 5px;
+			height: 5px;
+			border: solid var(--color-text, #333);
+			border-width: 0 2px 2px 0;
+			transform: rotate(-45deg);
+			transition: transform 0.2s ease;
+		}
+
+		&-title {
+			flex: 1;
+			font-weight: 700;
+			color: hsl(0, 0%, 33%);
+
+			&:hover {
+				color: hsl(0, 100%, 50%);
+			}
+		}
+
+		&-content {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.5s ease;
+
+			&Inner {
+				padding: 0 1rem 1rem 2.5rem;
+				padding-top: 1rem;
+
+				@media (max-width: 768px) {
+					padding: 1rem 0 0 0;
+				}
+			}
+		}
+	}
+
+	// Estilos para el estado activo
+	.Accordion-trigger[aria-expanded="true"] {
+		.Accordion-icon {
+			transform: rotate(45deg);
+		}
+
+		+ .Accordion-content {
+			max-height: 2000px;
+		}
+	}
+</style>
+
+<script>
+	function setupAccordions() {
+		document.querySelectorAll(".Accordion-trigger").forEach((trigger) => {
+			trigger.addEventListener("click", () => {
+				const isExpanded = trigger.getAttribute("aria-expanded") === "true";
+				trigger.setAttribute("aria-expanded", (!isExpanded).toString());
+			});
+		});
+	}
+
+	// Para la carga inicial
+	document.addEventListener("DOMContentLoaded", setupAccordions);
+
+	// Para la navegación de Astro
+	document.addEventListener("astro:page-load", setupAccordions);
+</script>

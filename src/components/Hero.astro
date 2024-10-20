@@ -1,0 +1,82 @@
+---
+// Hero.astro
+import { Image } from "astro:assets";
+
+import Diapo1 from "../assets/hero-images/01_img_header.png";
+import Diapo2 from "../assets/hero-images/02_img_header.png";
+import Diapo3 from "../assets/hero-images/03_img_header.png";
+import Diapo4 from "../assets/hero-images/04_img_header.png";
+import Diapo5 from "../assets/hero-images/05_img_header.png";
+import Diapo6 from "../assets/hero-images/06_img_header.png";
+import Diapo7 from "../assets/hero-images/07_img_header.png";
+import Diapo8 from "../assets/hero-images/08_img_header.png";
+---
+
+<section class="Hero">
+	<div class="Container">
+		<div class="ImageContainer">
+			<Image
+				class={"active"}
+				src={Diapo1}
+				alt={"Imagen"}
+				width={965}
+				height={181}
+			/>
+			<Image src={Diapo2} alt={"Imagen"} width={965} height={181} />
+			<Image src={Diapo3} alt={"Imagen"} width={965} height={181} />
+			<Image src={Diapo4} alt={"Imagen"} width={965} height={181} />
+			<Image src={Diapo5} alt={"Imagen"} width={965} height={181} />
+			<Image src={Diapo6} alt={"Imagen"} width={965} height={181} />
+			<Image src={Diapo7} alt={"Imagen"} width={965} height={181} />
+			<Image src={Diapo8} alt={"Imagen"} width={965} height={181} />
+		</div>
+	</div>
+</section>
+
+<style lang="scss">
+	.Hero {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.ImageContainer {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 16 / 2.8;
+		border-radius: 14px;
+		overflow: hidden;
+
+		@media (max-width: 440px) {
+			aspect-ratio: 16 / 6;
+		}
+	}
+
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		opacity: 0;
+		transition: opacity 1.5s ease-in-out;
+
+		&.active {
+			opacity: 1;
+		}
+	}
+</style>
+
+<script>
+	const images = document.querySelectorAll(".Hero img");
+	let currentIndex = 0;
+	const transitionTime = 7000; // 5 segundos entre cada imagen
+
+	function showNextImage() {
+		images[currentIndex].classList.remove("active");
+		currentIndex = (currentIndex + 1) % images.length;
+		images[currentIndex].classList.add("active");
+	}
+
+	setInterval(showNextImage, transitionTime);
+</script>
